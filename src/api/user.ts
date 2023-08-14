@@ -1,5 +1,5 @@
 import axiosClient from "@/utility/config";
-import { LoginForm } from "@/utility/type";
+import { LoginForm, RegisterForm } from "@/utility/type";
 
 export const apiLogin = (data: LoginForm) =>
   axiosClient({
@@ -7,4 +7,11 @@ export const apiLogin = (data: LoginForm) =>
     method: "post",
     data,
     withCredentials: true,
+  });
+
+export const apiregister = (data: RegisterForm) =>
+  axiosClient({
+    url: "/auth/register",
+    method: "post",
+    data,
   });

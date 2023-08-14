@@ -29,7 +29,7 @@ const Page: FC<InputField> = ({
           className={`${
             style
               ? style
-              : "px-4 py-6 rounded-md text-2xl bg-black text-white font-semibold opacity-70 outline-none"
+              : "p-4 rounded-md text-2xl bg-black text-white font-semibold opacity-70 outline-none"
           } ${fullw ? "w-full" : ""}`}
           type={type ? type : "text"}
           {...register(name)}

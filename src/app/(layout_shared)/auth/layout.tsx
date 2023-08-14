@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ToastContainer } from "react-toastify";
 
 export default function LoginLayout({
   children,
@@ -11,6 +12,18 @@ export default function LoginLayout({
         <Image src={"/login.jpg"} alt="image" height={1080} width={1920} />
       </div>
       <>{children}</>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

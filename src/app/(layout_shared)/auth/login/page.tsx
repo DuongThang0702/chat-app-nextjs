@@ -1,5 +1,5 @@
 "use client";
-import { Button, InputField } from "@/app/components";
+import { Button, InputField } from "@/components";
 import { LoginForm } from "@/utility/type";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { apiLogin } from "@/api";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/utility/contants";
-
+import Link from "next/link";
+import { toast } from "react-toastify";
 const Page: FC = ({}) => {
   const router = useRouter();
   const schema = yup.object({
@@ -27,8 +28,11 @@ const Page: FC = ({}) => {
   const handleLogin = async (data: LoginForm) => {
     await apiLogin(data)
       .then((rs) => {
-        if (rs.status >= 100 && rs.status <= 399)
-          router.push(`/${Routes.CONVERSTATION}`);
+        if (rs.status >= 100 && rs.status <= 399) {
+          toast.success("Success");
+
+          // router.push(`/${Routes.CONVERSTATION}`);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -38,8 +42,8 @@ const Page: FC = ({}) => {
       className="absolute top-1/2 left-1/2"
       style={{ transform: "translate(-50%, -50%)" }}
     >
-      <div className="bg-[#313338] w-[80rem] h-[50rem] rounded-xl">
-        <div className="p-12">
+      <div className="bg-[#313338] w-[41rem] h-[50rem] rounded-xl">
+        <div className="p-[3.2rem]">
           <div className="flex flex-col justify-center items-center">
             <span className="text-white text-[3rem] font-title tracking-wider">
               Welcome back!
@@ -48,26 +52,33 @@ const Page: FC = ({}) => {
               We're so excited to see you again!
             </span>
           </div>
-          <div className="w-2/3 mx-auto">
-            <form
-              onSubmit={handleSubmit(handleLogin)}
-              className="flex flex-col gap-y-12 mt-8"
+          <form
+            onSubmit={handleSubmit(handleLogin)}
+            className="flex flex-col gap-y-12 mt-8"
+          >
+            <InputField
+              label="EMAIL"
+              register={register}
+              name="email"
+              errors={errors?.email?.message}
+            />
+            <InputField
+              type="password"
+              label="PASSWORD"
+              register={register}
+              name="password"
+              errors={errors?.password?.message}
+            />
+            <Button title="Log in" submit />
+          </form>
+          <div className="text-white mt-4 text-xl">
+            <span className=" opacity-60">Need an account?</span>{" "}
+            <Link
+              className="text-[#2E70E2] opacity-100"
+              href={`${Routes.REGISTER}`}
             >
-              <InputField
-                label="EMAIL"
-                register={register}
-                name="email"
-                errors={errors?.email?.message}
-              />
-              <InputField
-                type="password"
-                label="PASSWORD"
-                register={register}
-                name="password"
-                errors={errors?.password?.message}
-              />
-              <Button title="Log in" submit />
-            </form>
+              Register
+            </Link>
           </div>
         </div>
       </div>
