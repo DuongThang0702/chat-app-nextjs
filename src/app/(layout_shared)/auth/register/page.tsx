@@ -1,8 +1,8 @@
 "use client";
 import { apiregister } from "@/api";
 import { Button, InputField } from "@/components";
-import { Routes } from "@/utility/contants";
-import { RegisterForm } from "@/utility/type";
+import { Routes } from "@/utils/contants";
+import { RegisterForm } from "@/utils/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { FC } from "react";
@@ -27,8 +27,8 @@ const Page: FC = ({}) => {
 
   const handleRegister = async (data: RegisterForm) => {
     await apiregister(data)
-      .then((rs) => console.log(rs))
-      .catch((err) => console.log(err));
+      .then((rs: any) => console.log(rs))
+      .catch((err: any) => console.log(err));
   };
 
   return (

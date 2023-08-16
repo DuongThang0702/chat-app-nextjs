@@ -1,5 +1,5 @@
-import { button } from "@/utility/type";
-import { FC } from "react";
+import { button } from "@/utils/type";
+import { FC, memo } from "react";
 
 const Page: FC<button> = ({ title, style, submit, fullw }) => {
   return (
@@ -18,4 +18,4 @@ const Page: FC<button> = ({ title, style, submit, fullw }) => {
   );
 };
 
-export default Page;
+export default memo(Page);

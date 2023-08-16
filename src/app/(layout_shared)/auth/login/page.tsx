@@ -1,13 +1,13 @@
 "use client";
 import { Button, InputField } from "@/components";
-import { LoginForm } from "@/utility/type";
+import { LoginForm } from "@/utils/type";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { apiLogin } from "@/api";
 import { useRouter } from "next/navigation";
-import { Routes } from "@/utility/contants";
+import { Routes } from "@/utils/contants";
 import Link from "next/link";
 import { toast } from "react-toastify";
 const Page: FC = ({}) => {
@@ -27,14 +27,13 @@ const Page: FC = ({}) => {
 
   const handleLogin = async (data: LoginForm) => {
     await apiLogin(data)
-      .then((rs) => {
+      .then((rs: any) => {
         if (rs.status >= 100 && rs.status <= 399) {
           toast.success("Success");
-
-          // router.push(`/${Routes.CONVERSTATION}`);
+          router.push(`/${Routes.CONVERSTATION}`);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err: any) => console.log(err));
   };
 
   return (

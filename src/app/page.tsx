@@ -1,5 +1,5 @@
 "use client";
-import { Routes } from "@/utility/contants";
+import { Routes } from "@/utils/contants";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

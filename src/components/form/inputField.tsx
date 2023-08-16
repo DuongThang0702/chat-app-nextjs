@@ -1,5 +1,5 @@
-import { InputField } from "@/utility/type";
-import { FC } from "react";
+import { InputField } from "@/utils/type";
+import { FC, memo } from "react";
 
 const Page: FC<InputField> = ({
   type,
@@ -40,4 +40,4 @@ const Page: FC<InputField> = ({
   );
 };
 
-export default Page;
+export default memo(Page);

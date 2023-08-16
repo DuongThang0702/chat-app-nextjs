@@ -1,5 +1,5 @@
-import axiosClient from "@/utility/config";
-import { LoginForm, RegisterForm } from "@/utility/type";
+import axiosClient from "@/utils/config";
+import { LoginForm, RegisterForm } from "@/utils/type";
 
 export const apiLogin = (data: LoginForm) =>
   axiosClient({
@@ -15,3 +15,6 @@ export const apiregister = (data: RegisterForm) =>
     method: "post",
     data,
   });
+
+export const apiCurrentUser = () =>
+  axiosClient({ url: "/auth/current", method: "get" });
