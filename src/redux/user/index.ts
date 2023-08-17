@@ -1,20 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { currentUser } from "./AsyncAction";
-import { initlaStateUser } from "@/utils/type/redux";
-import { Current } from "@/utils/type";
+import { Current, UserSlice, initlaStateUser } from "@/utils/type";
 
 const initialState: Partial<initlaStateUser> = {
   loading: false,
   current: null as Current | null,
-  isLoggin: false,
-  access_token: null as string | null,
+  isLoggedIn: false,
+  accessToken: null as string | null,
   error: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    login: (state, { payload }: PayloadAction<UserSlice>) => {
+      state.isLoggedIn = payload.isLoggedIn;
+      state.accessToken = payload.accessToken;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(currentUser.pending, (state) => {
       state.loading = true;
@@ -22,19 +26,21 @@ export const userSlice = createSlice({
     builder.addCase(currentUser.fulfilled, (state, action) => {
       state.loading = false;
       state.error = false;
-      state.access_token = action.payload;
-      state.isLoggin = true;
+      state.accessToken = action.payload;
+      state.isLoggedIn = true;
       state.current = action.payload;
     });
 
     builder.addCase(currentUser.rejected, (state) => {
       state.loading = false;
       state.error = true;
-      state.isLoggin = false;
-      state.access_token = null;
+      state.isLoggedIn = false;
+      state.accessToken = null;
       state.current = null;
     });
   },
 });
+
+export const { login } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -10,7 +10,13 @@ import { useRouter } from "next/navigation";
 import { Routes } from "@/utils/contants";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { AxiosResponse, AxiosError } from "axios";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { login } from "@/redux/user";
+
 const Page: FC = ({}) => {
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const schema = yup.object({
     email: yup.string().email().required(),
@@ -27,13 +33,20 @@ const Page: FC = ({}) => {
 
   const handleLogin = async (data: LoginForm) => {
     await apiLogin(data)
-      .then((rs: any) => {
+      .then((rs: AxiosResponse) => {
         if (rs.status >= 100 && rs.status <= 399) {
-          toast.success("Success");
+          dispatch(
+            login({ isLoggedIn: true, accessToken: rs.data.accessToken })
+          );
           router.push(`/${Routes.CONVERSTATION}`);
         }
+        if (rs.status >= 400 && rs.status <= 599) toast.error(rs.data.message);
       })
-      .catch((err: any) => console.log(err));
+
+      .catch((err: AxiosError) => {
+        console.log(err);
+        toast.error("Somthing went wrong!");
+      });
   };
 
   return (

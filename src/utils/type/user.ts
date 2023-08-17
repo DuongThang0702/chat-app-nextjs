@@ -3,3 +3,8 @@ export type Current = {
   firstname: string;
   lastname: string;
 };
+
+export type UserSlice = {
+  isLoggedIn: boolean;
+  accessToken: string;
+};

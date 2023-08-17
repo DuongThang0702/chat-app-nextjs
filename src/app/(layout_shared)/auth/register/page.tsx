@@ -4,6 +4,7 @@ import { Button, InputField } from "@/components";
 import { Routes } from "@/utils/contants";
 import { RegisterForm } from "@/utils/type";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError, AxiosResponse } from "axios";
 import Link from "next/link";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
@@ -27,8 +28,8 @@ const Page: FC = ({}) => {
 
   const handleRegister = async (data: RegisterForm) => {
     await apiregister(data)
-      .then((rs: any) => console.log(rs))
-      .catch((err: any) => console.log(err));
+      .then((rs: AxiosResponse) => console.log(rs))
+      .catch((err: AxiosError) => console.log(err));
   };
 
   return (
