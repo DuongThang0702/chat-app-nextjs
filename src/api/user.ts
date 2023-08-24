@@ -18,3 +18,6 @@ export const apiregister = (data: RegisterForm) =>
 
 export const apiCurrentUser = () =>
   axiosClient({ url: "/auth/current", method: "get" });
+
+export const apiLogout = () =>
+  axiosClient({ url: "/auth/logout", method: "delete", withCredentials: true });

@@ -1,6 +1,12 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 
+export type Menu = {
+  id: number;
+  title: string;
+  link?: string;
+};
+
 export type RegisterForm = {
   email: string;
   password: string;

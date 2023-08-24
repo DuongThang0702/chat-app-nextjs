@@ -19,7 +19,6 @@ type conversationSidebar = {
 };
 
 const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
-  const { isLoggedIn, current } = useSelector((state: RootState) => state.user);
   const router = useRouter();
   const {
     register,
@@ -28,6 +27,7 @@ const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
   } = useForm<findUserFromInput>();
   const [conversation, setConversation] =
     useState<Partial<Conversation> | null>();
+
   const fetchGetConversation = async () => {
     await apiGetConversation()
       .then((rs: AxiosResponse) => {
@@ -46,7 +46,6 @@ const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
         toast.error("Something went wrong!");
       });
   };
-  if (!current || !isLoggedIn) router.push(`/${Routes.AUTH}/${Routes.LOGIN}`);
   const handleSearchName = async () => {};
 
   useEffect(() => {

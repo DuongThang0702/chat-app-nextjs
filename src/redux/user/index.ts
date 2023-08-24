@@ -18,6 +18,11 @@ export const userSlice = createSlice({
       state.isLoggedIn = payload.isLoggedIn;
       state.accessToken = payload.accessToken;
     },
+    logout: (state) => {
+      state.isLoggedIn = false;
+      state.accessToken = null;
+      state.current = null;
+    },
   },
   extraReducers(builder) {
     builder.addCase(currentUser.pending, (state) => {
@@ -26,7 +31,6 @@ export const userSlice = createSlice({
     builder.addCase(currentUser.fulfilled, (state, action) => {
       state.loading = false;
       state.error = false;
-      state.isLoggedIn = true;
       state.current = action.payload;
     });
 
@@ -39,6 +43,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;
