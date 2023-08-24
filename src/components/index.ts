@@ -1,3 +1,6 @@
 export { default as InputField } from "./form/inputField";
 export { default as Button } from "./form/buttton";
-export { default as HeaderConversation } from "./conversation/header";
+export { default as ConversationSidebar } from "./sidebar/conversationSidebar";
+export { default as ConversationChannel } from "./conversation/conversationChannel";
+export { default as ConversationHeader } from "./header/conversationHeader";
+export { default as CreateConversation } from "./modal/createConversation";

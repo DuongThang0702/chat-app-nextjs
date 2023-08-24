@@ -1,8 +1,6 @@
 import axios from "axios";
 import { LocalStorage } from "./type";
 
-let localStorage = window.localStorage.getItem("persist:chat-app/user");
-
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_URL_SERVER,
   headers: {
@@ -13,6 +11,7 @@ const axiosClient = axios.create({
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config: any) {
+    let localStorage = window.localStorage.getItem("persist:chat-app/user");
     if (localStorage && typeof localStorage === "string") {
       const data: LocalStorage = JSON.parse(localStorage);
       const token = JSON.parse(data?.accessToken);

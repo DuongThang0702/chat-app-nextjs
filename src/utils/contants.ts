@@ -3,5 +3,5 @@ export enum Routes {
   LOGIN = "login",
   AUTH = "auth",
   REGISTER = "register",
-  CONVERSTATION = "converstation",
+  CONVERSATION = "conversation",
 }

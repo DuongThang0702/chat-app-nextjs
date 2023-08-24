@@ -1,6 +1,4 @@
-"use client";
-
-import { FC, useState } from "react";
+import { FC, memo } from "react";
 
 const Page: FC = ({}) => {
   return (
@@ -10,4 +8,4 @@ const Page: FC = ({}) => {
   );
 };
 
-export default Page;
+export default memo(Page);

@@ -6,11 +6,14 @@ import { RegisterForm } from "@/utils/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError, AxiosResponse } from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 const Page: FC = ({}) => {
+  const router = useRouter();
   const schema = yup.object({
     email: yup.string().email().required(),
     password: yup.string().min(6).required(),
@@ -28,7 +31,15 @@ const Page: FC = ({}) => {
 
   const handleRegister = async (data: RegisterForm) => {
     await apiregister(data)
-      .then((rs: AxiosResponse) => console.log(rs))
+      .then((rs: AxiosResponse) => {
+        if (rs.status >= 100 && rs.status <= 399) {
+          toast.success("register successfully");
+          router.push(`/${Routes.AUTH}/${Routes.LOGIN}`);
+        }
+        if (rs.status >= 400 && rs.status <= 499) toast.error(rs.data.message);
+        if (rs.status >= 500 && rs.status <= 599)
+          toast.error("Some thing went wrong!");
+      })
       .catch((err: AxiosError) => console.log(err));
   };
 

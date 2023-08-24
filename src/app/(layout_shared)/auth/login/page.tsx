@@ -38,7 +38,7 @@ const Page: FC = ({}) => {
           dispatch(
             login({ isLoggedIn: true, accessToken: rs.data.accessToken })
           );
-          router.push(`/${Routes.CONVERSTATION}`);
+          router.push(`/${Routes.CONVERSATION}`);
         }
         if (rs.status >= 400 && rs.status <= 599) toast.error(rs.data.message);
       })

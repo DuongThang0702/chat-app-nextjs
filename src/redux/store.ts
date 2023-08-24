@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./user";
+import appSlice from "./app";
 import { persistReducer, persistStore } from "redux-persist";
 
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
@@ -28,12 +29,13 @@ export default storage;
 const userConfig = {
   key: "chat-app/user",
   storage,
-  whitelist: ["accessToken", "isLoggedIn"],
+  whitelist: ["accessToken", "isLoggedIn", "current"],
 };
 
 export const store = configureStore({
   reducer: {
-    user: persistReducer(userConfig, userSlice),
+    user: persistReducer<any>(userConfig, userSlice),
+    app: appSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -43,7 +45,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

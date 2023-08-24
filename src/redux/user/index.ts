@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { currentUser } from "./AsyncAction";
-import { Current, UserSlice, initlaStateUser } from "@/utils/type";
+import { Current, initlaStateUser, PayloadLogin } from "@/utils/type";
 
-const initialState: Partial<initlaStateUser> = {
+const initialState: initlaStateUser = {
   loading: false,
   current: null as Current | null,
   isLoggedIn: false,
@@ -14,7 +14,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, { payload }: PayloadAction<UserSlice>) => {
+    login: (state, { payload }: PayloadAction<PayloadLogin>) => {
       state.isLoggedIn = payload.isLoggedIn;
       state.accessToken = payload.accessToken;
     },
@@ -26,7 +26,6 @@ export const userSlice = createSlice({
     builder.addCase(currentUser.fulfilled, (state, action) => {
       state.loading = false;
       state.error = false;
-      state.accessToken = action.payload;
       state.isLoggedIn = true;
       state.current = action.payload;
     });
@@ -35,7 +34,6 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
       state.isLoggedIn = false;
-      state.accessToken = null;
       state.current = null;
     });
   },

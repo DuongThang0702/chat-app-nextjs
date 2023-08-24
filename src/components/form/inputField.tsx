@@ -10,8 +10,37 @@ const Page: FC<InputField> = ({
   label,
   styleLabel,
   errors,
+  placeholder,
+  textarea,
 }) => {
-  return (
+  return textarea ? (
+    <>
+      <div className="flex flex-col">
+        {label && (
+          <label
+            htmlFor={name}
+            className={`${
+              styleLabel ? styleLabel : " text-xl text-white opacity-75 mb-4"
+            }`}
+          >
+            {label}
+          </label>
+        )}
+        <textarea
+          rows={5}
+          cols={1}
+          id={name}
+          placeholder={placeholder}
+          className={`${
+            style
+              ? style
+              : "p-4 rounded-md text-2xl bg-black text-white font-semibold opacity-70 outline-none"
+          } ${fullw ? "w-full" : ""}`}
+          {...register(name)}
+        ></textarea>
+      </div>
+    </>
+  ) : (
     <div>
       <div className="flex flex-col">
         {label && (
@@ -26,6 +55,7 @@ const Page: FC<InputField> = ({
         )}
         <input
           id={name}
+          placeholder={placeholder}
           className={`${
             style
               ? style
