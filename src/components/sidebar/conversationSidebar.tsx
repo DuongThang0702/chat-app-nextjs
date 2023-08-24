@@ -1,17 +1,24 @@
 "use client";
-import { Dispatch, FC, SetStateAction, memo, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  memo,
+  useEffect,
+  useState,
+  Fragment,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import icon from "@/utils/icon";
 import { apiGetConversation } from "@/api/conversation";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
 import { useForm } from "react-hook-form";
-import { InputField } from "@/components";
+import { InputField } from "..";
 import { Conversation, findUserFromInput } from "@/utils/type";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { Routes } from "@/utils/contants";
+import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type conversationSidebar = {
   isShowModal: Dispatch<SetStateAction<boolean>>;
@@ -19,15 +26,16 @@ type conversationSidebar = {
 };
 
 const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<findUserFromInput>();
-  const [conversation, setConversation] =
-    useState<Partial<Conversation> | null>();
-
+  const [conversation, setConversation] = useState<Conversation[] | null>(null);
+  const [selectConversation, setSelectConversation] = useState<string | null>(
+    null
+  );
+  const { current } = useSelector((state: RootState) => state.user);
   const fetchGetConversation = async () => {
     await apiGetConversation()
       .then((rs: AxiosResponse) => {
@@ -46,14 +54,16 @@ const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
         toast.error("Something went wrong!");
       });
   };
+  console.log(selectConversation);
+
   const handleSearchName = async () => {};
 
   useEffect(() => {
     fetchGetConversation();
   }, [update]);
   return (
-    <div className="w-full relative">
-      <div className="text-white w-[36rem] bg-main p-6 mt-2 h-screen">
+    <div className="w-full relative h-screen overflow-y-hidden">
+      <div className="text-white w-[36rem] bg-main p-6 mt-2 h-screen overflow-y-scroll">
         <div className="w-full`">
           <div className="flex text-3xl justify-between items-center">
             <h1 className="font-bold text-4xl">Chat</h1>
@@ -75,7 +85,67 @@ const Page: FC<conversationSidebar> = ({ isShowModal, update }) => {
             />
           </form>
         </div>
-        <div className="mt-8">Hello</div>
+        <div className="mt-8">
+          {current &&
+            conversation &&
+            conversation.length > 0 &&
+            conversation.map((el) =>
+              (current._id as string) !== el.creator._id ? (
+                <Fragment key={el._id}>
+                  <div
+                    onClick={() => setSelectConversation(el._id)}
+                    className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
+                  >
+                    <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
+                      <Image
+                        src={
+                          el.creator.avatar === null
+                            ? "/avatarDefault.png"
+                            : el.creator.avatar
+                        }
+                        height={100}
+                        width={100}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      <h1 className="text-xl font-semibold">
+                        {el.creator.firstname} {el.creator.lastname}
+                      </h1>
+                      <span className="opacity-70 text-base">
+                        lastmessage : CreatedAt
+                      </span>
+                    </div>
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment key={el._id}>
+                  <div className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4">
+                    <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
+                      <Image
+                        src={
+                          el.recipient.avatar === null
+                            ? "/avatarDefault.png"
+                            : el.recipient.avatar
+                        }
+                        height={100}
+                        width={100}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      <h1 className="text-xl font-semibold">
+                        {el.recipient.firstname} {el.recipient.lastname}
+                      </h1>
+                      <span className="opacity-70 text-base">
+                        lastmessage : CreatedAt
+                      </span>
+                    </div>
+                  </div>
+                </Fragment>
+              )
+            )}
+        </div>
       </div>
     </div>
   );

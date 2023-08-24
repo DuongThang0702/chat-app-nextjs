@@ -22,9 +22,8 @@ const Page: FC<SubmenuHeader> = ({ avatar, lastname, firstname }) => {
   const handleLogout = async () =>
     await apiLogout()
       .then((rs: AxiosResponse) => {
-        if (rs.status >= 100 && rs.status <= 399) {
-          dispatch(logout());
-        }
+        if (rs.status >= 100 && rs.status <= 399) dispatch(logout());
+
         if (rs.status >= 400 && rs.status <= 499) toast.error(rs.data.message);
 
         if (rs.status >= 500 && rs.status <= 599) {

@@ -63,6 +63,7 @@ export type findUserFromInput = {
 
 //User
 export type Current = {
+  _id: string;
   email: string;
   firstname: string;
   lastname: string;
@@ -92,6 +93,7 @@ export type CreateConversation = {
 };
 
 export type Conversation = {
+  _id: string;
   createdAt: string;
   updatedAt: string;
   creator: User;
