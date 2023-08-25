@@ -1,12 +1,9 @@
 "use client";
-import { Routes } from "@/utils/contants";
-import Link from "next/link";
 import { FC, memo } from "react";
 import Image from "next/image";
 import { apiLogout } from "@/api";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logout } from "@/redux/user";
@@ -22,7 +19,8 @@ const Page: FC<SubmenuHeader> = ({ avatar, lastname, firstname }) => {
   const handleLogout = async () =>
     await apiLogout()
       .then((rs: AxiosResponse) => {
-        if (rs.status >= 100 && rs.status <= 399) dispatch(logout());
+        if (rs.status >= 100 && rs.status <= 399)
+          setTimeout(() => dispatch(logout()), 800);
 
         if (rs.status >= 400 && rs.status <= 499) toast.error(rs.data.message);
 
@@ -57,7 +55,7 @@ const Page: FC<SubmenuHeader> = ({ avatar, lastname, firstname }) => {
             </h1>
           </div>
         </div>
-        <Link href={`/${Routes.PROFILE}`}>Profile</Link>
+        <div>Profile</div>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </>

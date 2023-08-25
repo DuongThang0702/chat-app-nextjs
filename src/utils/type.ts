@@ -80,9 +80,12 @@ export type PayloadLogin = {
 //Message
 
 export type Message = {
+  _id: string;
   author: User;
   idConversation: string;
   content: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 //Conversation
@@ -98,6 +101,6 @@ export type Conversation = {
   updatedAt: string;
   creator: User;
   recipient: User;
-  lastMessage: string;
+  lastMessage: Message;
   message: Message[];
 };
