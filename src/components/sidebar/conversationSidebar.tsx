@@ -60,6 +60,7 @@ const Page: FC<conversationSidebar> = ({
         toast.error("Something went wrong!");
       });
   };
+  // can them 1 cai fetch conversation by id
 
   const fetchMessageFromConversation = async (idConversation: string) => {
     await apiGetMessageFromConversation(idConversation)
@@ -92,9 +93,9 @@ const Page: FC<conversationSidebar> = ({
 
   return (
     <div className="w-full relative h-screen overflow-y-hidden">
-      <div className="text-white w-[36rem] bg-main p-6 mt-2 h-screen overflow-y-scroll">
-        <div className="w-full`">
-          <div className="flex text-3xl justify-between items-center">
+      <div className="text-white w-[36rem] bg-main h-screen border-r border-whiteOpacity">
+        <div className="w-full">
+          <div className="flex p-6 text-3xl justify-between items-center">
             <h1 className="font-bold text-4xl">Chat</h1>
             <div
               onClick={() => isShowModal((prev) => !prev)}
@@ -103,7 +104,7 @@ const Page: FC<conversationSidebar> = ({
               <FontAwesomeIcon icon={icon.faPenToSquare} />
             </div>
           </div>
-          <form onSubmit={handleSubmit(handleSearchName)}>
+          <form onSubmit={handleSubmit(handleSearchName)} className="p-6">
             <InputField
               name="findUser"
               register={register}
@@ -114,7 +115,7 @@ const Page: FC<conversationSidebar> = ({
             />
           </form>
         </div>
-        <div className="mt-8">
+        <div className="mt-8 h-full overflow-y-scroll p-6 pr-0">
           {current &&
             conversation &&
             conversation.length > 0 &&
@@ -124,47 +125,6 @@ const Page: FC<conversationSidebar> = ({
                   <div
                     onClick={() => {
                       setInfoUser(el.creator);
-                      setSelectConversation(el._id);
-                    }}
-                    className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
-                  >
-                    <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
-                      <Image
-                        src={
-                          el.recipient.avatar === null
-                            ? "/avatarDefault.png"
-                            : el.recipient.avatar
-                        }
-                        height={100}
-                        width={100}
-                        alt="avatar"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-y-2">
-                      <h1 className="text-xl font-semibold">
-                        {el.creator.firstname} {el.creator.lastname}
-                      </h1>
-                      <span className="opacity-70 text-base">
-                        {el.lastMessage.author !== current._id ? (
-                          <>
-                            {el.creator.lastname}: {el.lastMessage.content} *{" "}
-                            {moment(el.lastMessage.updatedAt).format("LT")}
-                          </>
-                        ) : (
-                          <>
-                            You: {el.lastMessage} *{" "}
-                            {moment(el.createdAt).format("LT")}
-                          </>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                </Fragment>
-              ) : (
-                <Fragment key={el._id}>
-                  <div
-                    onClick={() => {
-                      setInfoUser(el.recipient);
                       setSelectConversation(el._id);
                     }}
                     className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
@@ -183,21 +143,65 @@ const Page: FC<conversationSidebar> = ({
                     </div>
                     <div className="flex flex-col gap-y-2">
                       <h1 className="text-xl font-semibold">
-                        {el.recipient.firstname} {el.recipient.lastname}
+                        {el.creator.firstname} {el.creator.lastname}
                       </h1>
                       <span className="opacity-70 text-base">
-                        {el.lastMessage.author !== current._id ? (
+                        {/* {el.lastMessage.author._id !== current._id ? (
                           <>
-                            {el.recipient.lastname}: {el.lastMessage.content} *{" "}
-                            {moment(el.lastMessage.updatedAt).format("LT")}
+                            {el.creator.lastname}: {el.lastMessage.content} *{" "}
+                            {moment(el.lastMessage.updatedAt).fromNow(true)}
                           </>
                         ) : (
                           <>
                             You: {el.lastMessage} *{" "}
-                            {moment(el.createdAt).format("LT")}
+                            {moment(el.createdAt).fromNow(true)}
                           </>
-                        )}
-                        {/* {el.lastMessage} * {moment(el.createdAt).format("LT")} */}
+                        )} */}
+                        {el.lastMessage.content} *{" "}
+                        {moment(el.lastMessage.createdAt).fromNow(true)}
+                      </span>
+                    </div>
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment key={el._id}>
+                  <div
+                    onClick={() => {
+                      setInfoUser(el.recipient);
+                      setSelectConversation(el._id);
+                    }}
+                    className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
+                  >
+                    <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
+                      <Image
+                        src={
+                          el.recipient.avatar === null
+                            ? "/avatarDefault.png"
+                            : el.recipient.avatar
+                        }
+                        height={100}
+                        width={100}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      <h1 className="text-xl font-semibold">
+                        {el.recipient.firstname} {el.recipient.lastname}
+                      </h1>
+                      <span className="opacity-70 text-base">
+                        {/* {el.lastMessage.author._id !== current._id ? (
+                          <>
+                            {el.recipient.lastname}: {el.lastMessage.content} *{" "}
+                            {moment(el.lastMessage.updatedAt).fromNow(true)}
+                          </>
+                        ) : (
+                          <>
+                            You: {el.lastMessage} *{" "}
+                            {moment(el.createdAt).fromNow(true)}
+                          </>
+                        )} */}
+                        {el.lastMessage.content} *{" "}
+                        {moment(el.lastMessage.createdAt).fromNow(true)}
                       </span>
                     </div>
                   </div>

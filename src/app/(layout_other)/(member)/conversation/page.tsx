@@ -15,8 +15,7 @@ const Page: FC = ({}) => {
   const [infoUser, setInfoUser] = useState<User | null>(null);
   return (
     <>
-      <div className="w-full h-[5.6rem]"></div>
-      <div className="flex h-screen relative">
+      <div className="relative flex w-full h-full">
         <div className="absolute top-0 bottom-0 left-0 right-0">
           <ConversationSidebar
             setInfoUser={setInfoUser}
@@ -25,7 +24,7 @@ const Page: FC = ({}) => {
             setMessage={setMessage}
           />
         </div>
-        <div className="w-[36rem] h-screen flex-none"></div>
+        <div className="w-[36rem] flex-none"></div>
         {isShowModal && (
           <div className="absolute top-0 bottom-0 left-0 right-0 z-30">
             <CreateConversation

@@ -53,7 +53,7 @@ const Page: FC<CreateConversationProps> = ({ isShowModal, update }) => {
 
   return (
     <>
-      <div className="bg-model h-screen w-screen flex items-center text-white">
+      <div className="bg-menu h-screen w-screen flex items-center text-white">
         <div className="bg-main h-1/3 w-1/3 m-auto p-8 rounded-xl">
           <div className="flex justify-between">
             <h1 className="text-4xl font-bold mb-8">Create Conversation</h1>

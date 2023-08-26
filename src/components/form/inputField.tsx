@@ -15,7 +15,7 @@ const Page: FC<InputField> = ({
 }) => {
   return textarea ? (
     <>
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${fullw ? "w-full" : ""}`}>
         {label && (
           <label
             htmlFor={name}
@@ -41,8 +41,8 @@ const Page: FC<InputField> = ({
       </div>
     </>
   ) : (
-    <div>
-      <div className="flex flex-col">
+    <>
+      <div className={`flex flex-col ${fullw ? "w-full" : ""}`}>
         {label && (
           <label
             htmlFor={name}
@@ -60,13 +60,13 @@ const Page: FC<InputField> = ({
             style
               ? style
               : "p-4 rounded-md text-2xl bg-black text-white font-semibold opacity-70 outline-none"
-          } ${fullw ? "w-full" : ""}`}
+          } `}
           type={type ? type : "text"}
           {...register(name)}
         />
         {errors && <div className="text-base text-red-700">{errors}</div>}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -20,18 +20,17 @@ export default function ConversationLayout({
   useEffect(() => {
     setTimeout(() => {
       if (isLoggedIn) dispatch(currentUser());
-    }, 800);
-    setTimeout(() => {
       if (!isLoggedIn) router.push(`/${Routes.AUTH}/${Routes.LOGIN}`);
     }, 800);
   }, [isLoggedIn, dispatch]);
 
   return (
     <>
-      <div className="w-full h-screen overflow-y-hidden overflow-x-hidden bg-[#18191A]">
+      <div className="w-full h-screen overflow-hidden flex-none bg-[#18191A]">
         <div className="fixed top-0 left-0 right-0 z-40">
           <ConversationHeader />
         </div>
+        <div className="w-full h-[6rem]"></div>
         {children}
         <ToastContainer
           position="top-right"
