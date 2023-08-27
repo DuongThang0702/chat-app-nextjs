@@ -12,26 +12,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import icon from "@/utils/icon";
 import { useForm } from "react-hook-form";
 import { InputField } from "..";
-import { Conversation, Message, User, findUserFromInput } from "@/utils/type";
+import { Conversation, User, findUserFromInput } from "@/utils/type";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { apiGetMessageFromConversation, apiGetConversation } from "@/api";
+import { apiGetConversation } from "@/api";
 import moment from "moment";
 
 type conversationSidebar = {
   update: boolean;
   setInfoUser: Dispatch<SetStateAction<User | null>>;
-  setMessage: Dispatch<SetStateAction<Message[] | null>>;
+  setIdConversation: Dispatch<SetStateAction<string | null>>;
   isShowModal: Dispatch<SetStateAction<boolean>>;
 };
 
 const Page: FC<conversationSidebar> = ({
   update,
   isShowModal,
-  setMessage,
+  setIdConversation,
   setInfoUser,
 }) => {
   const {
@@ -40,9 +40,7 @@ const Page: FC<conversationSidebar> = ({
     formState: { errors },
   } = useForm<findUserFromInput>();
   const [conversation, setConversation] = useState<Conversation[] | null>(null);
-  const [selectConversation, setSelectConversation] = useState<string | null>(
-    null
-  );
+
   const { current } = useSelector((state: RootState) => state.user);
 
   const fetchGetConversation = async () => {
@@ -60,32 +58,8 @@ const Page: FC<conversationSidebar> = ({
         toast.error("Something went wrong!");
       });
   };
-  // can them 1 cai fetch conversation by id
-
-  const fetchMessageFromConversation = async (idConversation: string) => {
-    await apiGetMessageFromConversation(idConversation)
-      .then((rs: AxiosResponse) => {
-        if (rs.status >= 100 && rs.status <= 399) setMessage(rs.data);
-        if (rs.status >= 400 && rs.status <= 499) {
-          console.log(rs);
-          toast.error(rs.data.message);
-        }
-        if (rs.status >= 500 && rs.status <= 599) {
-          console.log(rs);
-          toast.error("Something went wrong");
-        }
-      })
-      .catch((err: AxiosError) => {
-        toast.error("Something went wrong!");
-        console.log(err);
-      });
-  };
 
   const handleSearchName = async () => {};
-
-  useEffect(() => {
-    if (selectConversation) fetchMessageFromConversation(selectConversation);
-  }, [selectConversation]);
 
   useEffect(() => {
     fetchGetConversation();
@@ -110,12 +84,12 @@ const Page: FC<conversationSidebar> = ({
               register={register}
               errors={errors?.email?.message}
               fullw
-              style="bg-whiteOpacity mt-8 p-4 rounded-full text-xl"
+              style="bg-whiteOpacity p-4 rounded-full text-xl"
               placeholder="Search Something..."
             />
           </form>
         </div>
-        <div className="mt-8 h-full overflow-y-scroll p-6 pr-0">
+        <div className="h-full overflow-y-scroll p-6 pr-0">
           {current &&
             conversation &&
             conversation.length > 0 &&
@@ -125,7 +99,7 @@ const Page: FC<conversationSidebar> = ({
                   <div
                     onClick={() => {
                       setInfoUser(el.creator);
-                      setSelectConversation(el._id);
+                      setIdConversation(el._id);
                     }}
                     className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
                   >
@@ -168,7 +142,7 @@ const Page: FC<conversationSidebar> = ({
                   <div
                     onClick={() => {
                       setInfoUser(el.recipient);
-                      setSelectConversation(el._id);
+                      setIdConversation(el._id);
                     }}
                     className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
                   >

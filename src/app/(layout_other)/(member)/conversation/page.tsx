@@ -5,14 +5,14 @@ import {
   ConversationSidebar,
   CreateConversation,
 } from "@/components";
-import { Message, User } from "@/utils/type";
+import { User } from "@/utils/type";
 import { FC, useState } from "react";
 
 const Page: FC = ({}) => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [update, setUpdate] = useState<boolean>(false);
-  const [message, setMessage] = useState<Message[] | null>(null);
   const [infoUser, setInfoUser] = useState<User | null>(null);
+  const [idConversation, setIdConversation] = useState<string | null>(null);
   return (
     <>
       <div className="relative flex w-full h-full">
@@ -21,7 +21,7 @@ const Page: FC = ({}) => {
             setInfoUser={setInfoUser}
             isShowModal={setIsShowModal}
             update={update}
-            setMessage={setMessage}
+            setIdConversation={setIdConversation}
           />
         </div>
         <div className="w-[36rem] flex-none"></div>
@@ -33,8 +33,11 @@ const Page: FC = ({}) => {
             />
           </div>
         )}
-        {message !== null && infoUser && (
-          <ConversationChannel messages={message} infoUser={infoUser} />
+        {idConversation && infoUser && (
+          <ConversationChannel
+            idConvesation={idConversation}
+            infoUser={infoUser}
+          />
         )}
       </div>
     </>

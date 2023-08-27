@@ -48,6 +48,8 @@ export type InputField = {
   label?: string;
   styleLabel?: string;
   textarea?: boolean;
+  defaultValue?: string;
+  validate?: object;
 };
 
 export type button = {

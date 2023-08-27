@@ -5,3 +5,8 @@ export const apiGetMessageFromConversation = (idConversation: string) =>
     url: `/message/${idConversation}`,
     method: "get",
   });
+
+export const apiCreateMessage = (data: {
+  content: string;
+  IdConversation: string;
+}) => axiosClient({ url: "/message", method: "post", data });

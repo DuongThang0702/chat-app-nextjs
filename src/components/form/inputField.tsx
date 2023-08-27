@@ -12,6 +12,8 @@ const Page: FC<InputField> = ({
   errors,
   placeholder,
   textarea,
+  defaultValue,
+  validate,
 }) => {
   return textarea ? (
     <>
@@ -55,6 +57,7 @@ const Page: FC<InputField> = ({
         )}
         <input
           id={name}
+          defaultValue={defaultValue}
           placeholder={placeholder}
           className={`${
             style
@@ -62,7 +65,7 @@ const Page: FC<InputField> = ({
               : "p-4 rounded-md text-2xl bg-black text-white font-semibold opacity-70 outline-none"
           } `}
           type={type ? type : "text"}
-          {...register(name)}
+          {...register(name, validate)}
         />
         {errors && <div className="text-base text-red-700">{errors}</div>}
       </div>
