@@ -9,8 +9,6 @@ import icon from "@/utils/icon";
 import { apiCreateConversation } from "@/api/conversation";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
 
 type CreateConversationProps = {
   isShowModal: Dispatch<SetStateAction<boolean>>;
@@ -18,8 +16,6 @@ type CreateConversationProps = {
 };
 
 const Page: FC<CreateConversationProps> = ({ isShowModal, update }) => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     message: yup.string().required(),

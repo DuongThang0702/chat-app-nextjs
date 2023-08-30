@@ -3,7 +3,6 @@ import Providers from "@/redux/provider";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { SocketContext, socket } from "@/context";
 export default function RootLayout({
   children,
 }: {

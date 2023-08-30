@@ -14,19 +14,6 @@ export type RegisterForm = {
   firstname: string;
 };
 
-export type initlaStateUser = {
-  loading: boolean;
-  current: any;
-  isLoggedIn: boolean;
-  accessToken: string | null;
-  error: boolean;
-};
-
-export type initialStateApp = {
-  isShowModal: boolean;
-  modalChildren: React.ReactNode;
-};
-
 export type LoginForm = {
   email: string;
   password: string;
@@ -105,4 +92,25 @@ export type Conversation = {
   recipient: User;
   lastMessage: Message;
   message: Message[];
+};
+
+//Redux
+export type initlaStateUser = {
+  loading: boolean;
+  current: any;
+  isLoggedIn: boolean;
+  accessToken: string | null;
+  error: boolean;
+};
+
+export type initialStateApp = {
+  isShowModal: boolean;
+  modalChildren: React.ReactNode;
+};
+
+export type initialStateConversation = {
+  isLoading: boolean;
+  conversation: Conversation[] | null;
+  isError: boolean;
+  messages: Message[] | null;
 };

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./user";
 import appSlice from "./app";
+import conversationSlice from "./conversation";
 import { persistReducer, persistStore } from "redux-persist";
 
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
@@ -36,6 +37,7 @@ export const store = configureStore({
   reducer: {
     user: persistReducer<any>(userConfig, userSlice),
     app: appSlice,
+    conversation: conversationSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
