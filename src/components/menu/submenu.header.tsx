@@ -4,9 +4,9 @@ import Image from "next/image";
 import { apiLogout } from "@/api";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { logout } from "@/redux/user";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { logout } from "@/redux/user";
 
 interface SubmenuHeader {
   avatar?: string;
@@ -19,8 +19,7 @@ const Page: FC<SubmenuHeader> = ({ avatar, lastname, firstname }) => {
   const handleLogout = async () =>
     await apiLogout()
       .then((rs: AxiosResponse) => {
-        if (rs.status >= 100 && rs.status <= 399)
-          setTimeout(() => dispatch(logout()), 800);
+        if (rs.status >= 100 && rs.status <= 399) dispatch(logout());
 
         if (rs.status >= 400 && rs.status <= 499) toast.error(rs.data.message);
 

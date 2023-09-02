@@ -25,16 +25,7 @@ const Page: FC = ({}) => {
     dispatch(getConversations());
   }, [update]);
 
-  return (
-    <>
-      {idConversation && (
-        <ConversationChannel
-          update={setUpdate}
-          idConvesation={idConversation.toString()}
-        />
-      )}
-    </>
-  );
+  return <>{idConversation && <ConversationChannel update={setUpdate} />}</>;
 };
 
 export default Page;

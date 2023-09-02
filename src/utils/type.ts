@@ -81,8 +81,9 @@ export type Notify = {
   _id: string;
   author: User;
   recipient: User;
-  content: Message;
+  content: string;
   createdAt: string;
+  idConversation: string;
   updatedAt: string;
 };
 

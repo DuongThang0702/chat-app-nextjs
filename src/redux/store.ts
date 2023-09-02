@@ -30,7 +30,7 @@ export default storage;
 const userConfig = {
   key: "chat-app/user",
   storage,
-  whitelist: ["accessToken", "isLoggedIn"],
+  whitelist: ["accessToken", "isLoggedIn", "current"],
 };
 
 export const store = configureStore({

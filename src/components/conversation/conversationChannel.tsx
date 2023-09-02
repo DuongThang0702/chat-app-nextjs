@@ -20,13 +20,15 @@ import { toast } from "react-toastify";
 import { SocketContext } from "@/context";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useParams } from "next/navigation";
 
 interface ConversationChannel {
-  idConvesation: string;
   update: Dispatch<SetStateAction<boolean>>;
 }
 
-const Page: FC<ConversationChannel> = ({ idConvesation, update }) => {
+const Page: FC<ConversationChannel> = ({ update }) => {
+  const params = useParams();
+  const { idConversation } = params;
   const { register, handleSubmit, reset, setValue, formState } = useForm({
     defaultValues: { content: "" },
   });
@@ -37,7 +39,10 @@ const Page: FC<ConversationChannel> = ({ idConvesation, update }) => {
   );
 
   const createMessage = async (data: { content: string }) =>
-    await apiCreateMessage({ ...data, IdConversation: idConvesation })
+    await apiCreateMessage({
+      ...data,
+      IdConversation: idConversation.toString(),
+    })
       .then((rs: AxiosResponse) => update((prev) => !prev))
       .catch((err: AxiosError) => {
         console.log(err);

@@ -39,6 +39,7 @@ export const userSlice = createSlice({
       state.error = true;
       state.isLoggedIn = false;
       state.current = null;
+      state.accessToken = null;
     });
   },
 });

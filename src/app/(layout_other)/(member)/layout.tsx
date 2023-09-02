@@ -1,10 +1,7 @@
 "use client";
 import { AppDispatch, RootState } from "@/redux/store";
-import { Routes } from "@/utils/contants";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { currentUser } from "@/redux/user/AsyncAction";
 import {
   ConversationHeader,
   ConversationSidebar,
@@ -12,6 +9,8 @@ import {
 } from "@/components";
 import { ToastContainer } from "react-toastify";
 import { getConversations } from "@/redux/conversation/AsyncAction";
+import { useRouter } from "next/navigation";
+import { Routes } from "@/utils/contants";
 
 export default function CheckLogin({
   children,
@@ -19,21 +18,18 @@ export default function CheckLogin({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const { current, isLoggedIn } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!current && !isLoggedIn)
+      return router.push(`/${Routes.AUTH}/${Routes.LOGIN}`);
+  }, [current, isLoggedIn]);
+  useEffect(() => {
     dispatch(getConversations());
   }, [update]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (isLoggedIn) dispatch(currentUser());
-      if (!isLoggedIn) router.push(`/${Routes.AUTH}/${Routes.LOGIN}`);
-    }, 800);
-  }, [isLoggedIn, dispatch]);
 
   return (
     <>
