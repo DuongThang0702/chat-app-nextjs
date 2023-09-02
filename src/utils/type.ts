@@ -66,8 +66,8 @@ export type PayloadLogin = {
   isLoggedIn: boolean;
   accessToken: string;
 };
-//Message
 
+//Message
 export type Message = {
   _id: string;
   author: User;
@@ -77,8 +77,16 @@ export type Message = {
   updatedAt: string;
 };
 
-//Conversation
+export type Notify = {
+  _id: string;
+  author: User;
+  recipient: User;
+  content: Message;
+  createdAt: string;
+  updatedAt: string;
+};
 
+//Conversation
 export type CreateConversation = {
   email: string;
   message: string;
@@ -113,4 +121,5 @@ export type initialStateConversation = {
   conversation: Conversation[] | null;
   isError: boolean;
   messages: Message[] | null;
+  infoConversation: User | null;
 };

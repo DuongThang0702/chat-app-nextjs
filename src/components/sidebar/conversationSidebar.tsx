@@ -1,32 +1,31 @@
 "use client";
 import { Dispatch, FC, SetStateAction, memo, Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import icon from "@/utils/icon";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useRouter } from "next/navigation";
+import icon from "@/utils/icon";
 import { InputField } from "..";
-import { User, findUserFromInput } from "@/utils/type";
+import { findUserFromInput } from "@/utils/type";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import moment from "moment";
+import { Routes } from "@/utils/contants";
+import { setInfoConversation } from "@/redux/conversation";
 
 type conversationSidebar = {
   update: boolean;
-  setInfoUser: Dispatch<SetStateAction<User | null>>;
-  setIdConversation: Dispatch<SetStateAction<string | null>>;
   isShowModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const Page: FC<conversationSidebar> = ({
-  isShowModal,
-  setIdConversation,
-  setInfoUser,
-}) => {
+const Page: FC<conversationSidebar> = ({ isShowModal }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<findUserFromInput>();
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { current } = useSelector((state: RootState) => state.user);
   const { conversation } = useSelector(
     (state: RootState) => state.conversation
@@ -67,10 +66,11 @@ const Page: FC<conversationSidebar> = ({
                 <Fragment key={el._id}>
                   <div
                     onClick={() => {
-                      setInfoUser(el.creator);
-                      setIdConversation(el._id);
+                      dispatch(setInfoConversation(el.creator));
+                      router.push(`/${Routes.CONVERSATION}/${el._id}`);
                     }}
-                    className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
+                    className="flex items-center cursor-pointer
+                  hover:bg-whiteOpacityHover gap-x-4"
                   >
                     <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
                       <Image
@@ -99,10 +99,11 @@ const Page: FC<conversationSidebar> = ({
                 <Fragment key={el._id}>
                   <div
                     onClick={() => {
-                      setInfoUser(el.recipient);
-                      setIdConversation(el._id);
+                      dispatch(setInfoConversation(el.recipient));
+                      router.push(`/${Routes.CONVERSATION}/${el._id}`);
                     }}
-                    className="flex items-center cursor-pointer hover:bg-whiteOpacityHover gap-x-4"
+                    className="flex items-center cursor-pointer
+                  hover:bg-whiteOpacityHover gap-x-4"
                   >
                     <div className="w-[5.6rem] h-[5.6rem] rounded-xl">
                       <Image

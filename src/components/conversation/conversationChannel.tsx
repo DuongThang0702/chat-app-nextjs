@@ -23,17 +23,18 @@ import { RootState } from "@/redux/store";
 
 interface ConversationChannel {
   idConvesation: string;
-  infoUser: User;
   update: Dispatch<SetStateAction<boolean>>;
 }
 
-const Page: FC<ConversationChannel> = ({ idConvesation, infoUser, update }) => {
+const Page: FC<ConversationChannel> = ({ idConvesation, update }) => {
   const { register, handleSubmit, reset, setValue, formState } = useForm({
     defaultValues: { content: "" },
   });
   const [Messages, setMessages] = useState<Message[] | []>([]);
   const socket = useContext(SocketContext);
-  const { messages } = useSelector((state: RootState) => state.conversation);
+  const { messages, infoConversation } = useSelector(
+    (state: RootState) => state.conversation
+  );
 
   const createMessage = async (data: { content: string }) =>
     await apiCreateMessage({ ...data, IdConversation: idConvesation })
@@ -70,10 +71,10 @@ const Page: FC<ConversationChannel> = ({ idConvesation, infoUser, update }) => {
       className="bg-main h-full w-screen text-xl
     text-white flex flex-col"
     >
-      <ChannelHeader user={infoUser} />
+      <ChannelHeader user={infoConversation as User} />
       <div className="w-full flex-none h-[5rem]"></div>
-      {Messages && infoUser && (
-        <MessagesContainer messages={Messages} infoUser={infoUser} />
+      {Messages && infoConversation && (
+        <MessagesContainer messages={Messages} infoUser={infoConversation} />
       )}
       <div className="px-12 mt-8 bg-main w-full py-5 flex items-center border-t border-whiteOpacity">
         <form

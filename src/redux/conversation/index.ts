@@ -1,4 +1,9 @@
-import { Conversation, Message, initialStateConversation } from "@/utils/type";
+import {
+  Conversation,
+  Message,
+  User,
+  initialStateConversation,
+} from "@/utils/type";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getConversations, getMessageFromConversation } from "./AsyncAction";
 
@@ -7,12 +12,17 @@ const initialState: initialStateConversation = {
   isLoading: false,
   isError: false,
   messages: null as Message[] | null,
+  infoConversation: null as User | null,
 };
 
 export const conversationSlice = createSlice({
   name: "conversation",
   initialState,
-  reducers: {},
+  reducers: {
+    setInfoConversation(state, { payload }: PayloadAction<User>) {
+      state.infoConversation = payload;
+    },
+  },
   extraReducers(builder) {
     // get conversation
     builder.addCase(getConversations.pending, (state) => {
@@ -44,6 +54,6 @@ export const conversationSlice = createSlice({
   },
 });
 
-export const {} = conversationSlice.actions;
+export const { setInfoConversation } = conversationSlice.actions;
 
 export default conversationSlice.reducer;
